@@ -1,0 +1,185 @@
+// Prisma Schema for CaseFlow
+// Database: Supabase PostgreSQL
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ============================================
+// ENUMS
+// ============================================
+
+enum Role {
+  ADMIN
+  OPERATOR
+}
+
+enum Category {
+  TAX
+  LICENSE
+  PERMIT
+}
+
+enum Priority {
+  LOW
+  MEDIUM
+  HIGH
+}
+
+enum CaseStatus {
+  PENDING
+  IN_PROGRESS
+  RESOLVED
+  REJECTED
+}
+
+enum ImportStatus {
+  PENDING
+  PROCESSING
+  COMPLETED
+  FAILED
+  PAUSED
+}
+
+// ============================================
+// MODELS
+// ============================================
+
+model User {
+  id            String      @id @default(uuid())
+  email         String      @unique
+  password      String?     // Null for magic-link only users
+  role          Role        @default(OPERATOR)
+  firstName     String?
+  lastName      String?
+  
+  // Magic Link Auth
+  magicToken    String?     @unique
+  magicExpiry   DateTime?
+  
+  // Refresh Token
+  refreshToken  String?
+  
+  // Timestamps
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+  
+  // Relations
+  cases         Case[]
+  importJobs    ImportJob[]
+  auditLogs     AuditLog[]
+  notes         Note[]
+
+  @@index([email])
+  @@index([magicToken])
+}
+
+model Case {
+  id            String      @id @default(uuid())
+  caseId        String      @unique  // User-provided case ID (e.g., C-1001)
+  applicantName String
+  dob           DateTime
+  email         String?
+  phone         String?     // E.164 format
+  category      Category
+  priority      Priority    @default(LOW)
+  status        CaseStatus  @default(PENDING)
+  
+  // Import tracking
+  importJobId   String?
+  importJob     ImportJob?  @relation(fields: [importJobId], references: [id])
+  
+  // User who created/imported
+  userId        String
+  user          User        @relation(fields: [userId], references: [id])
+  
+  // Timestamps
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+  
+  // Relations
+  auditLogs     AuditLog[]
+  notes         Note[]
+
+  @@index([caseId])
+  @@index([userId])
+  @@index([importJobId])
+  @@index([status])
+  @@index([category])
+  @@index([createdAt])
+}
+
+model ImportJob {
+  id            String       @id @default(uuid())
+  fileName      String
+  totalRows     Int
+  processedRows Int          @default(0)
+  successCount  Int          @default(0)
+  failedCount   Int          @default(0)
+  status        ImportStatus @default(PENDING)
+  
+  // Error tracking
+  errorData     Json?        // Store failed rows with error details
+  errorCsvUrl   String?      // S3 URL for downloadable error CSV
+  
+  // Resumable import state
+  lastProcessedIndex Int     @default(0)
+  
+  // User who initiated
+  userId        String
+  user          User         @relation(fields: [userId], references: [id])
+  
+  // Timestamps
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+  
+  // Relations
+  cases         Case[]
+
+  @@index([userId])
+  @@index([status])
+  @@index([createdAt])
+}
+
+model AuditLog {
+  id        String   @id @default(uuid())
+  action    String   // CREATE, UPDATE, DELETE, IMPORT, NOTE_ADDED
+  changes   Json     // { field: { old: value, new: value } }
+  
+  // Related entities
+  caseId    String
+  case      Case     @relation(fields: [caseId], references: [id], onDelete: Cascade)
+  
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  
+  // Timestamp
+  createdAt DateTime @default(now())
+
+  @@index([caseId])
+  @@index([userId])
+  @@index([createdAt])
+}
+
+model Note {
+  id        String   @id @default(uuid())
+  content   String
+  
+  // Related entities
+  caseId    String
+  case      Case     @relation(fields: [caseId], references: [id], onDelete: Cascade)
+  
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  
+  // Timestamp
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([caseId])
+}
