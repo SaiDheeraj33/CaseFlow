@@ -1,0 +1,64 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:15-alpine
+    container_name: caseflow-db
+    environment:
+      POSTGRES_USER: caseflow
+      POSTGRES_PASSWORD: caseflow_dev_password
+      POSTGRES_DB: caseflow
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U caseflow"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Backend API
+  backend:
+    build:
+      context: ./app/backend
+      dockerfile: Dockerfile
+    container_name: caseflow-api
+    environment:
+      DATABASE_URL: postgresql://caseflow:caseflow_dev_password@postgres:5432/caseflow
+      JWT_SECRET: dev-jwt-secret-change-in-production
+      JWT_EXPIRES_IN: 15m
+      JWT_REFRESH_SECRET: dev-refresh-secret-change-in-production
+      JWT_REFRESH_EXPIRES_IN: 7d
+      FRONTEND_URL: http://localhost:5173
+      CORS_ORIGIN: http://localhost:5173
+      PORT: 3000
+      NODE_ENV: development
+    ports:
+      - "3000:3000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - ./app/backend/src:/app/src
+      - ./app/backend/prisma:/app/prisma
+    command: npm run start:dev
+
+  # Frontend
+  frontend:
+    build:
+      context: ./app/frontend
+      dockerfile: Dockerfile
+    container_name: caseflow-web
+    environment:
+      VITE_API_URL: http://localhost:3000/api
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./app/frontend/src:/app/src
+      - ./app/frontend/public:/app/public
+    command: npm run dev -- --host
+
+volumes:
+  postgres_data:

@@ -1,0 +1,11 @@
+case_id,applicant_name,dob,email,phone,category,priority
+C-1001,Asha Verma,1990-03-14,asha.verma@example.com,+919876543210,TAX,HIGH
+C-1002,John Smith,1985-12-02,john.smith@example.com,+12025550101,LICENSE,MEDIUM
+C-1003,Li Wei,1979-05-22,li.wei@example.com,+12025550123,PERMIT,LOW
+C-1004,Maria Santos,2000-01-15,maria.santos@example.org,+14155550199,TAX,HIGH
+C-1005,Robert Johnson,1992-08-30,robert.j@example.com,+12125550177,LICENSE,LOW
+C-1006,Emily Chen,1988-11-11,emily.chen@example.com,+16505550142,PERMIT,MEDIUM
+C-1007,Michael Brown,1975-04-25,m.brown@example.com,+17035550188,TAX,LOW
+C-1008,Sarah Williams,1995-07-08,sarah.w@example.com,+15105550166,LICENSE,HIGH
+C-1009,David Lee,1983-02-19,david.lee@example.com,+14085550133,PERMIT,MEDIUM
+C-1010,Jennifer Davis,1991-09-03,jen.davis@example.com,+12155550144,TAX,LOW
