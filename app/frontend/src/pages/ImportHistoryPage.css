@@ -1,0 +1,126 @@
+.history-page h1 {
+    font-size: var(--text-2xl);
+    font-weight: var(--font-bold);
+    margin-bottom: var(--spacing-6);
+}
+
+.history-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-3);
+}
+
+.history-item {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-4);
+    padding: var(--spacing-4) var(--spacing-6);
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-xl);
+    transition: all var(--transition-fast);
+}
+
+.history-item:hover {
+    box-shadow: var(--shadow-md);
+}
+
+.history-icon {
+    font-size: 2rem;
+}
+
+.history-info {
+    flex: 1;
+}
+
+.history-info h3 {
+    font-weight: var(--font-semibold);
+    margin-bottom: var(--spacing-1);
+}
+
+.history-meta {
+    font-size: var(--text-sm);
+    color: var(--color-text-secondary);
+}
+
+.history-stats {
+    display: flex;
+    gap: var(--spacing-4);
+}
+
+.history-stats .stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.history-stats .stat-value {
+    font-size: var(--text-lg);
+    font-weight: var(--font-bold);
+}
+
+.history-stats .stat-value.success {
+    color: var(--color-success-600);
+}
+
+.history-stats .stat-value.failed {
+    color: var(--color-error-600);
+}
+
+.history-stats .stat-label {
+    font-size: var(--text-xs);
+    color: var(--color-text-tertiary);
+}
+
+.history-progress {
+    width: 150px;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-1);
+}
+
+.history-progress .progress-bar {
+    height: 6px;
+}
+
+.progress-label {
+    font-size: var(--text-xs);
+    color: var(--color-text-secondary);
+    text-align: center;
+}
+
+.history-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-16);
+}
+
+.history-empty .empty-icon {
+    font-size: 4rem;
+    margin-bottom: var(--spacing-4);
+    opacity: 0.5;
+}
+
+.history-empty p {
+    color: var(--color-text-secondary);
+    margin-bottom: var(--spacing-6);
+}
+
+.history-loading {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-3);
+}
+
+@media (max-width: 768px) {
+    .history-item {
+        flex-wrap: wrap;
+    }
+
+    .history-progress {
+        width: 100%;
+        order: 10;
+    }
+}
