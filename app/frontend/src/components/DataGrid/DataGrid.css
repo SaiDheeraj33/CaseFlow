@@ -1,0 +1,137 @@
+.data-grid-container {
+    flex: 1;
+    overflow: auto;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    background: var(--color-bg);
+}
+
+.data-grid {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: var(--text-sm);
+}
+
+.data-grid thead {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.data-grid th {
+    padding: var(--spacing-3) var(--spacing-4);
+    text-align: left;
+    font-weight: var(--font-semibold);
+    color: var(--color-text-secondary);
+    background: var(--color-bg-secondary);
+    border-bottom: 1px solid var(--color-border);
+    white-space: nowrap;
+}
+
+.data-grid td {
+    padding: var(--spacing-2) var(--spacing-4);
+    border-bottom: 1px solid var(--color-border);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: flex;
+    align-items: center;
+}
+
+.data-grid tbody tr:hover {
+    background: var(--color-bg-secondary);
+}
+
+.row-error {
+    background: var(--color-error-50) !important;
+}
+
+[data-theme="dark"] .row-error {
+    background: rgba(239, 68, 68, 0.1) !important;
+}
+
+.cell-editable {
+    cursor: pointer;
+    position: relative;
+}
+
+.cell-editable:hover {
+    background: var(--color-primary-50);
+}
+
+[data-theme="dark"] .cell-editable:hover {
+    background: rgba(99, 102, 241, 0.1);
+}
+
+.cell-editable:focus {
+    outline: 2px solid var(--color-primary-500);
+    outline-offset: -2px;
+}
+
+.cell-error {
+    background: var(--color-error-50);
+    position: relative;
+}
+
+[data-theme="dark"] .cell-error {
+    background: rgba(239, 68, 68, 0.15);
+}
+
+.cell-error-indicator {
+    margin-left: auto;
+    font-size: var(--text-xs);
+    cursor: help;
+}
+
+.cell-input {
+    width: 100%;
+    padding: var(--spacing-1);
+    border: 2px solid var(--color-primary-500);
+    border-radius: var(--radius-sm);
+    font-size: var(--text-sm);
+    background: var(--color-bg);
+    color: var(--color-text);
+}
+
+.cell-input:focus {
+    outline: none;
+}
+
+.status-indicator {
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.status-pending {
+    opacity: 0.5;
+}
+
+.status-valid {
+    color: var(--color-success-500);
+}
+
+.status-invalid {
+    color: var(--color-error-500);
+}
+
+.status-submitting {
+    animation: spin 1s linear infinite;
+}
+
+.status-success {
+    color: var(--color-success-600);
+    font-weight: bold;
+}
+
+.status-failed {
+    color: var(--color-error-600);
+    font-weight: bold;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}

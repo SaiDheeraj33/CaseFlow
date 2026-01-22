@@ -1,0 +1,120 @@
+.submit-progress-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: var(--z-modal);
+    backdrop-filter: blur(4px);
+}
+
+.submit-progress-modal {
+    background: var(--color-bg);
+    border-radius: var(--radius-2xl);
+    padding: var(--spacing-8);
+    max-width: 500px;
+    width: 90%;
+    box-shadow: var(--shadow-xl);
+    animation: slide-up var(--transition-base);
+}
+
+.progress-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-6);
+}
+
+.progress-header h2 {
+    font-size: var(--text-xl);
+    font-weight: var(--font-semibold);
+}
+
+.close-btn {
+    width: 32px;
+    height: 32px;
+    border: none;
+    background: var(--color-bg-secondary);
+    border-radius: var(--radius-full);
+    font-size: var(--text-xl);
+    color: var(--color-text-secondary);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.close-btn:hover {
+    background: var(--color-border);
+    color: var(--color-text);
+}
+
+.progress-bar-container {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-4);
+    margin-bottom: var(--spacing-6);
+}
+
+.progress-bar-container .progress-bar {
+    flex: 1;
+    height: 12px;
+}
+
+.progress-text {
+    font-size: var(--text-lg);
+    font-weight: var(--font-bold);
+    color: var(--color-primary-600);
+    min-width: 50px;
+    text-align: right;
+}
+
+.progress-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--spacing-4);
+    margin-bottom: var(--spacing-6);
+}
+
+.progress-stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-1);
+    padding: var(--spacing-4);
+    background: var(--color-bg-secondary);
+    border-radius: var(--radius-lg);
+}
+
+.progress-stat .stat-icon {
+    font-size: 1.5rem;
+}
+
+.progress-stat .stat-value {
+    font-size: var(--text-2xl);
+    font-weight: var(--font-bold);
+}
+
+.progress-stat.success .stat-value {
+    color: var(--color-success-600);
+}
+
+.progress-stat.failed .stat-value {
+    color: var(--color-error-600);
+}
+
+.progress-stat .stat-label {
+    font-size: var(--text-xs);
+    color: var(--color-text-secondary);
+}
+
+.progress-actions {
+    display: flex;
+    gap: var(--spacing-3);
+    justify-content: flex-end;
+}
+
+.progress-note {
+    text-align: center;
+    color: var(--color-text-secondary);
+    font-size: var(--text-sm);
+}
